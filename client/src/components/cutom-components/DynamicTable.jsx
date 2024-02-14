@@ -45,7 +45,7 @@ function DynamicTable({ data }) {
   const columnNames = Object.keys(data[0]);
 
   return (
-    <Table>
+    <Table className="w-1/2">
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
@@ -60,6 +60,15 @@ function DynamicTable({ data }) {
             {columnNames.map((columnName) => (
               <TableCell key={columnName}>{rowData[columnName]}</TableCell>
             ))}
+            <TableCell>
+              <button
+                onClick={() => {
+                  console.log(rowData.id);
+                }}
+              >
+                Delete
+              </button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

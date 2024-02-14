@@ -1,28 +1,18 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import DynamicTable from "./components/cutom-components/DynamicTable";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Books from "./pages/Books";
+import Add from "./pages/Add";
+import Update from "./pages/Update";
 
 function App() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:8801/users");
-        setData(data);
-      } catch (error) {
-        console.log("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  console.log(data);
-
   return (
-    <div>
-      <DynamicTable data={data} />
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Books />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/update/:id" element={<Update />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
