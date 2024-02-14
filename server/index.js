@@ -39,6 +39,18 @@ app.get("/books", (req, res) => {
   });
 });
 
+app.get("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = "SELECT * FROM books WHERE id = ?";
+  db.query(q, [bookId], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length === 0) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+    return res.json(data[0]);
+  });
+});
+
 app.post("/books", (req, res) => {
   const q =
     "INSERT INTO books (`title`,`description`, `cover`, `price`) VALUES (?)";

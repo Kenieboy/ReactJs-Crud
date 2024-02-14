@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Update() {
@@ -14,6 +14,21 @@ function Update() {
   const { pathname } = useLocation();
 
   const bookId = pathname.split("/")[pathname.split("/").length - 1];
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8801/books/${bookId}`
+        );
+        setBook(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchBook();
+  }, [bookId]);
 
   console.log(pathname.split("/")[pathname.split("/").length - 1]);
 
@@ -42,24 +57,28 @@ function Update() {
             type="text"
             placeholder="title"
             name="title"
+            value={book.title}
             onChange={handleChange}
           />
           <input
             type="text"
             placeholder="description"
             name="description"
+            value={book.description}
             onChange={handleChange}
           />
           <input
             type="text"
             placeholder="cover"
             name="cover"
+            value={book.cover}
             onChange={handleChange}
           />
           <input
             type="number"
             placeholder="price"
             name="price"
+            value={book.price || ""}
             onChange={handleChange}
           />
           <button onClick={handleClick}>Update</button>
